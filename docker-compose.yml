@@ -1,0 +1,46 @@
+version: '3'
+services:
+
+  postgres:
+    image: 'postgres:alpine'
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloak
+      POSTGRES_HOST: postgres
+      TZ: America/Sao_Paulo
+
+  keycloak:
+    image: jboss/keycloak
+    ports:
+      - 18443:8443
+      - 18080:8080
+      - 19990:9990
+    depends_on:
+      # Just a delay to wait for postgres! This is not recommended!
+      - grafana
+      - prometheus
+      - jaeger
+      - kafka
+      - zookeeper
+      - contas
+      - analise
+      - transacoes
+      - postgres
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_PORT: 5432
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER: thalyta
+      KEYCLOAK_PASSWORD: 1234
+      POSTGRES_PORT_5432_TCP_ADDR: 127.0.0.1
+
+volumes:
+  postgres-volume:
