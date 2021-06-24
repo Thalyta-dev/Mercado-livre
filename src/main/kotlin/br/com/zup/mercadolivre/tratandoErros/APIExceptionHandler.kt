@@ -1,5 +1,5 @@
 
-package br.com.zup.mercadolivre.TratandoErros
+package br.com.zup.mercadolivre.tratandoErros
 
 import ErrosDto
 import org.springframework.context.MessageSource

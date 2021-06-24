@@ -19,15 +19,15 @@ class ProdutoRequest(
     val nome: String,
 
     @field: NotNull
-    @Positive
+    @field:Positive
     val valor: BigDecimal,
 
-    @Positive
-    @Size(min = 1)
+    @field:Positive
+    @field:Size(min = 1)
     val quantidade: Int,
 
     @OneToMany(cascade = [CascadeType.ALL])
-    @Size(min = 3)
+    @field:Size(min = 3)
     val caracteristicas: Set<CaracteristicasRequest>,
 
     @field: NotEmpty
@@ -35,7 +35,7 @@ class ProdutoRequest(
 
     @ManyToOne
     @field: NotNull
-    @ExistValor(domainClass = Categoria::class, fieldName = "id")
+    @field:ExistValor(domainClass = Categoria::class, fieldName = "id")
     val categoria: Long
 
 
@@ -53,6 +53,7 @@ class ProdutoRequest(
             caracteristicas = caracteristicas.map { caracteristicasRequest -> caracteristicasRequest.toModel() }
                 .toSet(),
             categoria = categoriaRepository.findById(categoria).get()
+
         )
     }
 }
